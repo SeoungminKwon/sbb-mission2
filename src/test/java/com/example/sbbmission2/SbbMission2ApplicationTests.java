@@ -1,41 +1,24 @@
 package com.example.sbbmission2;
 
-import com.example.sbbmission2.answer.Answer;
-import com.example.sbbmission2.answer.AnswerRepository;
-import com.example.sbbmission2.question.Question;
-import com.example.sbbmission2.question.QuestionRepository;
-import jakarta.transaction.Transactional;
+import com.example.sbbmission2.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbMission2ApplicationTests {
 
     @Autowired
-    private QuestionRepository questionRepository;
-    @Autowired
-    private AnswerRepository answerRepository;
+    private QuestionService questionService;
 
-
-
-    @Transactional
     @Test
-    void testJpa() {
-        Optional< Question > oq = this.questionRepository.findById(2);
-        assertTrue(oq.isPresent());
-        Question q = oq.get();
+    void TestJpa() {
+        for (int i = 0; i <= 300; i++) {
+            String subject = String.format("테스트데이터입니다:[%03d]", i);
+            String content = "내용무";
+            this.questionService.create(subject, content);
 
-        List< Answer > answerList = q.getAnswerList();
-
-        assertEquals(2, answerList.size());
-        assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
+        }
     }
 
 }
